@@ -6,6 +6,7 @@ Theano http://deeplearning.net/software/theano/
 Lasagne https://lasagne.readthedocs.io/en/latest/
 Scikit-learn http://scikit-learn.org/stable/
 SciPy https://www.scipy.org/
+PyWavelets https://pywavelets.readthedocs.io/en/latest/
 
 Installation through of the librairies is the easiest and fastest way to have the code running (https://conda.io/docs/user-guide/install/download.html). 
 
