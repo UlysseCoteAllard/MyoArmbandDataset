@@ -69,7 +69,7 @@ class ParametricExponentialLayer(lasagne.layers.Layer):
         alpha = self.alpha.dimshuffle(pattern)
         beta = self.beta.dimshuffle(pattern)
 
-        alpha = theano.tensor.switch(alpha >= .1, beta, .1)
+        alpha = theano.tensor.switch(alpha >= .1, alpha, .1)
         beta = theano.tensor.switch(beta >= .1, beta, .1)
         delta = 1./beta
         return theano.tensor.switch(input >= 0, alpha*delta*input,
