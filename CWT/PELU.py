@@ -79,7 +79,7 @@ class ParametricExponentialLayer(lasagne.layers.Layer):
 
 def pelu(layer, **kwargs):
     """
-    Convenience function to apply parametric rectify to a given layer's output.
+    Convenience function to apply pelu to a given layer's output.
     Will set the layer's nonlinearity to identity if there is one and will
     apply the parametric exponential instead.
 
@@ -102,7 +102,7 @@ def pelu(layer, **kwargs):
     layer = DenseLayer(layer, num_units=200)
     layer = pelu(layer)
 
-    In particular, :func:`prelu` can *not* be passed as a nonlinearity.
+    In particular, :func:`pelu` can *not* be passed as a nonlinearity.
     """
     nonlinearity = getattr(layer, 'nonlinearity', None)
     if nonlinearity is not None:
