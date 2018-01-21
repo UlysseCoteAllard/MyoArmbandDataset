@@ -69,7 +69,7 @@ class ParametricExponentialLayer(lasagne.layers.Layer):
         alpha = self.alpha.dimshuffle(pattern)
         beta = self.beta.dimshuffle(pattern)
 
-        alpha = theano.tensor.switch(alpha >= .1, beta, .1)
+        alpha = theano.tensor.switch(alpha >= .1, alpha, .1)
         beta = theano.tensor.switch(beta >= .1, beta, .1)
         delta = 1./beta
         return theano.tensor.switch(input >= 0, alpha*delta*input,
@@ -79,7 +79,7 @@ class ParametricExponentialLayer(lasagne.layers.Layer):
 
 def pelu(layer, **kwargs):
     """
-    Convenience function to apply parametric rectify to a given layer's output.
+    Convenience function to apply pelu to a given layer's output.
     Will set the layer's nonlinearity to identity if there is one and will
     apply the parametric exponential instead.
 
@@ -102,7 +102,7 @@ def pelu(layer, **kwargs):
     layer = DenseLayer(layer, num_units=200)
     layer = pelu(layer)
 
-    In particular, :func:`prelu` can *not* be passed as a nonlinearity.
+    In particular, :func:`pelu` can *not* be passed as a nonlinearity.
     """
     nonlinearity = getattr(layer, 'nonlinearity', None)
     if nonlinearity is not None:
