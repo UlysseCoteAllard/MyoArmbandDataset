@@ -28,3 +28,6 @@ Examples to load the datasets are given with the files (load_pre_training_datase
 
 This work is based on: 
 U. Côté-Allard, C. L. Fall, A. Campeau-Lecours, C. Gosselin, F. Laviolette,  and  B.  Gosselin,  “Transfer  learning  for  semg  hand  gestures recognition using convolutional neural networks,” in Systems, Man, and Cybernetics, 2017 IEEE International Conference on (in press). IEEE, 2017.
+
+
+Note that work is currently underway to port the networks from Theano to PyTorch. The structure of the project within PyTorchImplementation is the same as previously described. 
