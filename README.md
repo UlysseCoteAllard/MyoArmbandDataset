@@ -16,7 +16,7 @@ PyWavelets https://pywavelets.readthedocs.io/en/latest/
 Matplotlib https://matplotlib.org/
 
 
-Installation through of the librairies is the easiest and fastest way to have the code running (https://conda.io/docs/user-guide/install/download.html). 
+Installation through Anaconda is the easiest and fastest way to have the code running (https://conda.io/docs/user-guide/install/download.html). 
 
 The files that should be utilized to launch the experiments are evaluate_spectrogram_source_network.py (no transfer learning) and evaluate_spectrogram_target_network.py (with transfer learning). Similar files are available for the CWT-based ConvNet. 
 
@@ -27,4 +27,4 @@ The dataset is separated in two subdatasets (pre-training and evaluation dataset
 Examples to load the datasets are given with the files (load_pre_training_dataset.py and load_evaluation_dataset.py).
 
 This work is based on: 
-U. Côté-Allard, C. L. Fall, A. Campeau-Lecours, C. Gosselin, F. Laviolette,  and  B.  Gosselin,  “Transfer  learning  for  semg  hand  gesturesrecognition using convolutional neural networks,” in Systems, Man, and Cybernetics, 2017 IEEE International Conference on (in press). IEEE, 2017.
+U. Côté-Allard, C. L. Fall, A. Campeau-Lecours, C. Gosselin, F. Laviolette,  and  B.  Gosselin,  “Transfer  learning  for  semg  hand  gestures recognition using convolutional neural networks,” in Systems, Man, and Cybernetics, 2017 IEEE International Conference on (in press). IEEE, 2017.
