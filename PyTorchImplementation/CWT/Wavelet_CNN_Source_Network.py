@@ -10,7 +10,7 @@ class Net(nn.Module):
     def __init__(self, number_of_class, batch_size=300, number_of_channel=8, learning_rate=0.02, dropout=.5):
         super(Net, self).__init__()
 
-        #self._input_batch_norm = nn.BatchNorm2d(12)
+        self._input_batch_norm = nn.BatchNorm2d(12)
         self._input_prelu = nn.PReLU(12)
 
         self._list_conv1_first_part = []
