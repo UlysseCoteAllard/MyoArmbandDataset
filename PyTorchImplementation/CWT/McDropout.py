@@ -11,7 +11,7 @@ class McDropout(Module):
         self.inplace = inplace
 
     def forward(self, input):
-        return F.alpha_dropout(input, self.p, True)
+        return F.dropout(input, self.p, training=True)
 
     def __repr__(self):
         inplace_str = ', inplace' if self.inplace else ''
