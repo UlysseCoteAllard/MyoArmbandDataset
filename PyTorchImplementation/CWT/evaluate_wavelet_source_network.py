@@ -57,9 +57,7 @@ def calculate_fitness(examples_training, labels_training, examples_test_0, label
     accuracy_test1 = []
     # initialized_weights = np.load("initialized_weights.npy")
     for dataset_index in range(0, 17):
-        cnn = Wavelet_CNN_Source_Network.Net(number_of_class=7, batch_size=128, number_of_channel=12,
-                                             learning_rate=0.0404709, dropout=.5).cuda()
-
+    #for dataset_index in [11, 15]:
         X_fine_tune_train, Y_fine_tune_train = [], []
         for label_index in range(len(labels_training)):
             if label_index == dataset_index:
@@ -107,7 +105,10 @@ def calculate_fitness(examples_training, labels_training, examples_test_0, label
         test_0_loader = torch.utils.data.DataLoader(test_0, batch_size=1, shuffle=False)
         test_1_loader = torch.utils.data.DataLoader(test_1, batch_size=1, shuffle=False)
 
-        criterion = nn.CrossEntropyLoss()
+        cnn = Wavelet_CNN_Source_Network.Net(number_of_class=7, batch_size=128, number_of_channel=12,
+                                             learning_rate=0.0404709, dropout=.5).cuda()
+
+        criterion = nn.NLLLoss(size_average=False)
         optimizer = optim.Adam(cnn.parameters(), lr=0.0404709)
 
         precision = 1e-8
@@ -208,7 +209,7 @@ def train_model(cnn, criterion, optimizer, scheduler, dataloaders, num_epochs=50
                     accumulated_predicted = Variable(torch.zeros(len(inputs), 7)).cuda()
                     loss_intermediary = 0.
                     total_sub_pass = 0
-                    for i in range(1):
+                    for i in range(20):
                         outputs = cnn(inputs)
                         loss = criterion(outputs, labels)
                         if loss_intermediary == 0.:
@@ -240,7 +241,7 @@ def train_model(cnn, criterion, optimizer, scheduler, dataloaders, num_epochs=50
                 if epoch_loss+precision < best_loss:
                     print("New best validation loss:", epoch_loss)
                     best_loss = epoch_loss
-                    best_model_wts = cnn.state_dict()
+                    torch.save(cnn.state_dict(), 'best_weights_source_wavelet.pt')
                     patience = patience_increase + epoch
         print("Epoch {} of {} took {:.3f}s".format(
             epoch + 1, num_epochs, time.time() - epoch_start))
@@ -252,10 +253,11 @@ def train_model(cnn, criterion, optimizer, scheduler, dataloaders, num_epochs=50
 
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
-    print('Best val Acc: {:4f}'.format(best_loss))
-
+    print('Best val loss: {:4f}'.format(best_loss))
     # load best model weights
-    cnn.load_state_dict(best_model_wts)
+    cnn_weights = torch.load('best_weights_source_wavelet.pt')
+    cnn.load_state_dict(cnn_weights)
+    cnn.eval()
     return cnn
 
 
