@@ -3,14 +3,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 import argparse
 from Pytorch_implementation.McDropout import McDropout
-from Pytorch_implementation.PELU import pelu
 import numpy as np
 
 class Net(nn.Module):
     def __init__(self, number_of_class, batch_size=300, number_of_channel=8, learning_rate=0.02, dropout=.5):
         super(Net, self).__init__()
 
-        self._input_batch_norm = nn.BatchNorm2d(12)
+        self._input_batch_norm = nn.BatchNorm2d(12, eps=1e-4)
+        #self._input_prelu = pelu((1, 12, 1, 1))
         self._input_prelu = nn.PReLU(12)
 
         self._list_conv1_first_part = []
@@ -22,17 +22,19 @@ class Net(nn.Module):
         self._first_part_batchnorm1 = []
         self._first_part_batchnorm2 = []
         for i in range(4):
-            self._list_conv1_first_part.append(nn.Conv2d(3, 8, kernel_size=3))
+            self._list_conv1_first_part.append(nn.Co(3, 8, kernel_size=3))
             self._list_conv2_first_part.append(nn.Conv2d(8, 12, kernel_size=3))
 
             self._first_part_dropout1.append(McDropout())
             self._first_part_dropout2.append(McDropout())
 
+            #self._first_part_relu1.append(pelu(parameters_dimensions=(1, 8, 1, 1)))
+            #self._first_part_relu2.append(pelu(parameters_dimensions=(1, 12, 1, 1)))
             self._first_part_relu1.append(nn.PReLU(8))
             self._first_part_relu2.append(nn.PReLU(12))
 
-            self._first_part_batchnorm1.append(nn.BatchNorm2d(8))
-            self._first_part_batchnorm2.append(nn.BatchNorm2d(12))
+            self._first_part_batchnorm1.append(nn.BatchNorm2d(8, eps=1e-4))
+            self._first_part_batchnorm2.append(nn.BatchNorm2d(12, eps=1e-4))
 
         self._list_conv1_first_part = nn.ModuleList(self._list_conv1_first_part)
         self._list_conv2_first_part = nn.ModuleList(self._list_conv2_first_part)
@@ -52,9 +54,10 @@ class Net(nn.Module):
 
             self._second_part_dropout1.append(McDropout())
 
+            #self._second_part_relu1.append(pelu(parameters_dimensions=(1, 24, 1, 1)))
             self._second_part_relu1.append(nn.PReLU(24))
 
-            self._second_part_batchnorm.append(nn.BatchNorm2d(24))
+            self._second_part_batchnorm.append(nn.BatchNorm2d(24, eps=1e-4))
 
         self._list_conv1_second_part = nn.ModuleList(self._list_conv1_second_part)
         self._second_part_dropout1 = nn.ModuleList(self._second_part_dropout1)
@@ -62,17 +65,20 @@ class Net(nn.Module):
         self._second_part_batchnorm = nn.ModuleList(self._second_part_batchnorm)
 
         self._conv3 = nn.Conv2d(24, 48, kernel_size=2)
-        self._batch_norm_3 = nn.BatchNorm2d(48)
+        self._batch_norm_3 = nn.BatchNorm2d(48, eps=1e-4)
+        #self._prelu_3 = pelu(parameters_dimensions=(1, 48, 1, 1))
         self._prelu_3 = nn.PReLU(48)
         self._dropout3 = McDropout()
 
         self._fc1 = nn.Linear(48, 100)
-        self._batch_norm_fc1 = nn.BatchNorm2d(100)
+        self._batch_norm_fc1 = nn.BatchNorm2d(100, eps=1e-4)
+        #self._prelu_fc1 = pelu(parameters_dimensions=(1, 100))
         self._prelu_fc1 = nn.PReLU(100)
         self._dropout_fc1 = McDropout()
 
         self._fc2 = nn.Linear(100, 100)
-        self._batch_norm_fc2 = nn.BatchNorm2d(100)
+        self._batch_norm_fc2 = nn.BatchNorm2d(100, eps=1e-4)
+        #self._prelu_fc2 = pelu(parameters_dimensions=(1, 100))
         self._prelu_fc2 = nn.PReLU(100)
         self._dropout_fc2 = McDropout()
 
@@ -80,20 +86,15 @@ class Net(nn.Module):
 
         self.initialize_weights()
 
-        print(self.get_n_params())
+        print(self)
 
-        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
-        params = sum([np.prod(p.size()) for p in model_parameters])
-        print(params)
+        print("Number Parameters: ", self.get_n_params())
+
 
     def get_n_params(self):
-        pp = 0
-        for p in list(self.parameters()):
-            nn = 1
-            for s in list(p.size()):
-                nn = nn * s
-            pp += nn
-        return pp
+        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
+        number_params = sum([np.prod(p.size()) for p in model_parameters])
+        return number_params
 
     def init_weights(self):
         for m in self.modules():
@@ -152,7 +153,8 @@ class Net(nn.Module):
 
         fc2_output = self._dropout_fc2(self._prelu_fc2(self._batch_norm_fc2(self._fc2(fc1_output))))
 
-        return self._output(fc2_output)
+
+        return nn.functional.log_softmax(self._output(fc2_output))
 
     def first_parallel(self, input_to_give, index):
         conv1_first_part1 = self._list_conv1_first_part[index](input_to_give)
