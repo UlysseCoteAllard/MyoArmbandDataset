@@ -30,4 +30,4 @@ This work is based on:
 U. Côté-Allard, C. L. Fall, A. Campeau-Lecours, C. Gosselin, F. Laviolette,  and  B.  Gosselin,  “Transfer  learning  for  semg  hand  gestures recognition using convolutional neural networks,” in Systems, Man, and Cybernetics, 2017 IEEE International Conference on (in press). IEEE, 2017.
 
 
-Note that work is currently underway to port the networks from Theano to PyTorch (From Python 2.7 to Python 3.6). The structure of the project within PyTorchImplementation is the same as previously described. 
+Note that work is currently underway to port the networks from Theano to PyTorch (From Python 2.7 to Python 3.6). The structure of the project within PyTorchImplementation is the same as previously described. Note that the currently available PyTorch networks do not employ the PELU activation function, as my current implementation is to slow. As a result the Target Network perform slightly worst (around 98.23% accuracy) then the one reported in the article. Apart from that, the implementation should be identical.  
