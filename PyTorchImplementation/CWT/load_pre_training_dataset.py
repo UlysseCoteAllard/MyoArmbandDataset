@@ -105,7 +105,6 @@ def read_data(path):
         labels = []
         examples = []
         for i in range(number_of_classes * 4):
-            i=0
             data_read_from_file = np.fromfile(path + '/Female' + str(candidate) + '/training0/classe_%d.dat' % i,
                                               dtype=np.int16)
             data_read_from_file = np.array(data_read_from_file, dtype=np.float32)
