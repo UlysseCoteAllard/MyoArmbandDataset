@@ -1,5 +1,5 @@
 # MyoArmbandDataset
-Work submitted at IEEE Transactions on Cybernetics, code is currently being optimized and simplified.
+The paper describing this dataset is available here: https://arxiv.org/abs/1801.07756
 
 Required libraries: 
 
