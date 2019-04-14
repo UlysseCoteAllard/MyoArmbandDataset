@@ -70,13 +70,13 @@ class Net(nn.Module):
         self._dropout3 = McDropout()
 
         self._fc1 = nn.Linear(48, 100)
-        self._batch_norm_fc1 = nn.BatchNorm2d(100, eps=1e-4)
+        self._batch_norm_fc1 = nn.BatchNorm1d(100, eps=1e-4)
         #self._prelu_fc1 = pelu(parameters_dimensions=(1, 100))
         self._prelu_fc1 = nn.PReLU(100)
         self._dropout_fc1 = McDropout()
 
         self._fc2 = nn.Linear(100, 100)
-        self._batch_norm_fc2 = nn.BatchNorm2d(100, eps=1e-4)
+        self._batch_norm_fc2 = nn.BatchNorm1d(100, eps=1e-4)
         #self._prelu_fc2 = pelu(parameters_dimensions=(1, 100))
         self._prelu_fc2 = nn.PReLU(100)
         self._dropout_fc2 = McDropout()
