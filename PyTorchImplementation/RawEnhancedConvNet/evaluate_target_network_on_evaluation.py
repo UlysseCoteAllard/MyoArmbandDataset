@@ -467,7 +467,7 @@ if __name__ == '__main__':
 
     np.save("formatted_datasets/saved_evaluation_dataset_training.npy", datasets)
 
-    examples, labels = load_evaluation_dataset.read_data('EvaluationDataset', type="Test0")
+    examples, labels = load_evaluation_dataset.read_data('../../EvaluationDataset', type="Test0")
     datasets = [examples, labels]
 
     np.save("formatted_datasets/saved_evaluation_dataset_test0.npy", datasets)
