@@ -178,7 +178,7 @@ def pre_train_model(cnn, criterion, optimizer, scheduler, dataloaders, num_epoch
 
             epoch_loss = running_loss / total
             epoch_acc = running_corrects.item() / total
-            print('{} Loss: {:.8f} Acc: {:.8}'.format(
+            print('{} Loss: {:.8f} Acc: {:.8f}'.format(
                 phase, epoch_loss, epoch_acc))
 
             # deep copy the model
@@ -446,12 +446,12 @@ if __name__ == '__main__':
     # Change the path of the Evaluation and PreTraining Dataset to where you have it downloaded
     
     # Comment between here
-    
-    examples, labels = load_pre_training_dataset.read_data('PreTrainingDataset')
+    '''
+    examples, labels = load_pre_training_dataset.read_data('../../PreTrainingDataset')
     datasets = [examples, labels]
 
     np.save("formatted_datasets/saved_pre_training_dataset_spectrogram.npy", datasets)
-    
+    '''
     # And here if the pre-training dataset was already processed and saved
     
     # Comment between here
@@ -462,7 +462,7 @@ if __name__ == '__main__':
     
     # Comment between here
     
-    examples, labels = load_evaluation_dataset.read_data('EvaluationDataset', type="training0")
+    examples, labels = load_evaluation_dataset.read_data('../../EvaluationDataset', type="training0")
     datasets = [examples, labels]
 
     np.save("formatted_datasets/saved_evaluation_dataset_training.npy", datasets)
@@ -472,7 +472,7 @@ if __name__ == '__main__':
 
     np.save("formatted_datasets/saved_evaluation_dataset_test0.npy", datasets)
 
-    examples, labels = load_evaluation_dataset.read_data('EvaluationDataset', type="Test1")
+    examples, labels = load_evaluation_dataset.read_data('../../EvaluationDataset', type="Test1")
     datasets = [examples, labels]
 
     np.save("formatted_datasets/saved_evaluation_dataset_test1.npy", datasets)
